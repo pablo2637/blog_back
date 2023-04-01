@@ -8,8 +8,6 @@ port = process.env.PORT || 3000;
 app.use(cors());                                    //Cors
 app.use(express.static(__dirname + '/public'));     //Carpeta static
 
-app.set('view engine', 'ejs');                      //Template engine
-app.set('views', __dirname + '/views');
 
 app.use(express.urlencoded({ extended: false }))    // Parse application/x-www-form-urlencoded
 app.use(express.json())                             // Parse application/json
