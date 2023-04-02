@@ -1,0 +1,62 @@
+--Crear tabla de users
+CREATE TABLE users (
+userID serial NOT NULL PRIMARY KEY,
+name varchar(45) NOT NULL,
+email varchar(100) NOT NULL UNIQUE,
+password varchar(200) NOT NULL
+);
+
+--Crear tabla de rols
+CREATE TABLE rols (
+rolID serial NOT NULL PRIMARY KEY,
+rol varchar(45) NOT NULL,
+userID int,
+FOREIGN KEY (userID) REFERENCES users(userID)
+);
+
+--Crear tabla de logs
+CREATE TABLE logs (
+logID serial NOT NULL PRIMARY KEY,
+event varchar(45) NOT NULL,
+userID int,
+date date DEFAULT CURRENT_DATE,
+FOREIGN KEY (userID) REFERENCES users(userID)
+);
+
+--Crear tabla de entries
+CREATE TABLE entries (
+entryID serial NOT NULL PRIMARY KEY,
+title varchar(100) NOT NULL,
+content text NOT NULL,
+extract varchar(250) NOT NULL,
+userID int,
+image varchar(200) NOT NULL,
+date date DEFAULT CURRENT_DATE,
+FOREIGN KEY (userID) REFERENCES users(userID)
+);
+
+--Crear admin (password: admin, se guarda encriptado)
+INSERT INTO users(name, email, password)
+VALUES
+('pepe','pepe@correo.es','$2a$10$a.x4kbAfyVBRwcJX.TW4S.GniM1hWeeNuOVWgRg3jKtd4UebOx5FC');
+
+--Crear rol admin
+INSERT INTO rols(rol,userID)
+VALUES
+('admin',1);
+
+--Crear resto usuarios (password: 123456, se guarda encriptado)
+INSERT INTO users(name,email,password)
+VALUES
+('ana','ana@correo.es','$2a$10$a23Xb31R5vIdedwkz/wl4epHZt6GerLQVU/y2PFZm28vBT4qrAm2i'),
+('pedro','pedro@correo.es','$2a$10$a23Xb31R5vIdedwkz/wl4epHZt6GerLQVU/y2PFZm28vBT4qrAm2i'),
+('luis','luis@correo.es','$2a$10$a23Xb31R5vIdedwkz/wl4epHZt6GerLQVU/y2PFZm28vBT4qrAm2i'),
+('laura','laura@correo.es','$2a$10$a23Xb31R5vIdedwkz/wl4epHZt6GerLQVU/y2PFZm28vBT4qrAm2i');
+
+--Crear resto rolers users
+INSERT INTO rols(rol,userID)
+VALUES
+('user',2),
+('user',3),
+('user',4),
+('user',5);
