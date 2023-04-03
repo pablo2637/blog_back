@@ -40,6 +40,7 @@ router.put('/', [
     check('content', 'La descripción es obligatoria').trim().not().isEmpty(),
     check('extract', 'El extracto es obligatorio').trim().not().isEmpty(),
     check('image', 'La imagen es obligatoria').trim().not().isEmpty(),
+    validateInputs
 ], updateEntry);
 
 

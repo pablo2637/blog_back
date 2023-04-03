@@ -6,8 +6,10 @@ const queriesUser = {
                     FROM users
                     WHERE email=$1;`,
 
-    getUserPassByEmail: `SELECT userID, password
-                    FROM users
+    getUserPassByEmail: `SELECT u.userID, u.password, u.name, r.rol
+                    FROM users AS u
+                    INNER JOIN rols AS r
+                    ON u.userID=r.userID
                     WHERE email=$1;`,
 
     createUser: `INSERT INTO users (name, email, password)

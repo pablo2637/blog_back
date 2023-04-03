@@ -68,7 +68,7 @@ const createUser = async ({ body }, res) => {
         if (data) return res.status(200).json({
             ok: true,
             data
-        });        
+        });
 
     } catch (e) {
         return res.status(500).json({
@@ -90,16 +90,21 @@ const loginUser = async ({ body }, res) => {
         if (result) {
             if (!isPassOK) return res.status(401).json({
                 ok: false,
-                msg: 'loginUser: el usuario/contraseña no corresponden a los datos almacenados.'
+                msg: 'El usuario/contraseña no corresponden a los datos almacenados.'
             })
 
             return res.status(200).json({
                 ok: true,
-                msg: 'loginUser OK.'
+                msg: 'loginUser OK.',
+                user: {
+                    id: result.userid,
+                    name: result.name,
+                    rol: result.rol
+                }
             });
         } else return res.status(401).json({
             ok: false,
-            msg: 'loginUser: el usuario/contraseña no corresponden a los datos almacenados.'
+            msg: 'El usuario/contraseña no corresponden a los datos almacenados.'
         });
 
     } catch (e) {
