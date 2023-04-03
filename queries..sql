@@ -1,4 +1,4 @@
---Crear tabla de users
+--Crea tabla de users
 CREATE TABLE users (
 userID serial NOT NULL PRIMARY KEY,
 name varchar(45) NOT NULL,
@@ -6,7 +6,7 @@ email varchar(100) NOT NULL UNIQUE,
 password varchar(200) NOT NULL
 );
 
---Crear tabla de rols
+--Crea tabla de rols
 CREATE TABLE rols (
 rolID serial NOT NULL PRIMARY KEY,
 rol varchar(45) NOT NULL,
@@ -14,7 +14,7 @@ userID int,
 FOREIGN KEY (userID) REFERENCES users(userID)
 );
 
---Crear tabla de logs
+--Crea tabla de logs
 CREATE TABLE logs (
 logID serial NOT NULL PRIMARY KEY,
 event varchar(45) NOT NULL,
@@ -24,7 +24,7 @@ time time DEFAULT CURRENT_TIME,
 FOREIGN KEY (userID) REFERENCES users(userID)
 );
 
---Crear tabla de entries
+--Crea tabla de entries
 CREATE TABLE entries (
 entryID serial NOT NULL PRIMARY KEY,
 title varchar(100) NOT NULL,
@@ -33,20 +33,21 @@ extract varchar(250) NOT NULL,
 userID int,
 image varchar(200) NOT NULL,
 date date DEFAULT CURRENT_DATE,
+time time DEFAULT CURRENT_TIME,
 FOREIGN KEY (userID) REFERENCES users(userID)
 );
 
---Crear admin (password: admin, se guarda encriptado)
+--Crea admin (password: admin, se guarda encriptado)
 INSERT INTO users(name, email, password)
 VALUES
 ('pepe','pepe@correo.es','$2a$10$a.x4kbAfyVBRwcJX.TW4S.GniM1hWeeNuOVWgRg3jKtd4UebOx5FC');
 
---Crear rol admin
+--Le asigna al usuario admin el rol admin
 INSERT INTO rols(rol,userID)
 VALUES
 ('admin',1);
 
---Crear resto usuarios (password: 123456, se guarda encriptado)
+--Crea resto usuarios (password: 123456, se guarda encriptado)
 INSERT INTO users(name,email,password)
 VALUES
 ('ana','ana@correo.es','$2a$10$a23Xb31R5vIdedwkz/wl4epHZt6GerLQVU/y2PFZm28vBT4qrAm2i'),
@@ -54,7 +55,7 @@ VALUES
 ('luis','luis@correo.es','$2a$10$a23Xb31R5vIdedwkz/wl4epHZt6GerLQVU/y2PFZm28vBT4qrAm2i'),
 ('laura','laura@correo.es','$2a$10$a23Xb31R5vIdedwkz/wl4epHZt6GerLQVU/y2PFZm28vBT4qrAm2i');
 
---Crear resto rolers users
+--Asinga resto de roles a users
 INSERT INTO rols(rol,userID)
 VALUES
 ('user',2),
