@@ -91,7 +91,7 @@ const queriesEntries = {
                     FROM entries AS e
                     INNER JOIN users AS u
                     ON e.userID=u.userID
-                    WHERE e.title LIKE '%$1%' OR e.content LIKE '%$1%'
+                    WHERE e.title LIKE $1 OR e.content LIKE $1
                     ORDER BY e.date DESC, e.time DESC;`
 }
 

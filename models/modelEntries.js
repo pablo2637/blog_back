@@ -32,7 +32,7 @@ const modelGetEntriesBySearch = async (text) => {
 
         client = await pool.connect();
 
-        const data = await client.query(queriesEntries.getEntriesBySearch, [text.replace(' ', '%')]);
+        const data = await client.query(queriesEntries.getEntriesBySearch, [`%${text.replace(' ', '%')}%`]);
 
         data.rowCount != 0 ? result = data.rows : result = false;
 
