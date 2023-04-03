@@ -6,6 +6,7 @@ const { validateInputs } = require('../middlewares/validarInputs');
 
 const {
     getEntries,
+    getEntriesBySearch,
     getEntriesByEmail,
     getEntryByID,
     createEntry,
@@ -14,6 +15,9 @@ const {
 
 
 router.get('/', getEntries);
+
+
+router.get('/search/:text', getEntriesBySearch);
 
 
 router.get('/email/:email', getEntriesByEmail);

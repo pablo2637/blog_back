@@ -1,5 +1,6 @@
 const {
     modelGetEntries,
+    modelGetEntriesBySearch,
     modelGetEntriesByEmail,
     modelGetEntryByID,
     modelCreateEntry,
@@ -26,7 +27,7 @@ const getEntries = async ({ query }, res) => {
                 const pag = data.slice(i, i + limit);
                 arrPage.push(pag);
             }
-            
+
             totalEntries = data.length;
 
             totalPages = Math.ceil(totalEntries / limit);
@@ -56,6 +57,53 @@ const getEntries = async ({ query }, res) => {
 }
 
 
+const getEntriesBySearch = async ({ params, query }, res) => {
+
+    try {
+
+        const limit = parseInt(query.limit) || limitePorDefecto;
+        const page = parseInt(query.page) || 1;
+
+        const data = await modelGetEntriesBySearch(params.text);
+
+        if (data) {
+            let totalEntries, totalPages;
+            const arrPage = [];
+
+            for (let i = 0; i < data.length; i += limit) {
+                const pag = data.slice(i, i + limit);
+                arrPage.push(pag);
+            }
+
+            totalEntries = data.length;
+
+            totalPages = Math.ceil(totalEntries / limit);
+
+            return res.status(200).json({
+                ok: true,
+                totalEntries,
+                limit,
+                totalPages,
+                page,
+                data: arrPage[page - 1]
+            });
+
+        } else return res.status(400).json({
+            ok: true,
+            msg: `No hay entradas en la base de datos con el texto: ${params.text}.`
+        });
+
+    } catch (e) {
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error en getEntriesBySearch.',
+            error: e
+        });
+
+    };
+}
+
+
 const getEntriesByEmail = async ({ params, query }, res) => {
 
     try {
@@ -73,7 +121,7 @@ const getEntriesByEmail = async ({ params, query }, res) => {
                 const pag = data.slice(i, i + limit);
                 arrPage.push(pag);
             }
-            
+
             totalEntries = data.length;
 
             totalPages = Math.ceil(totalEntries / limit);
@@ -86,6 +134,7 @@ const getEntriesByEmail = async ({ params, query }, res) => {
                 page,
                 data: arrPage[page - 1]
             });
+            
         } else return res.status(400).json({
             ok: true,
             msg: `No hay entradas en la base de datos con el email: ${params.email}.`
@@ -201,6 +250,7 @@ const deleteEntry = async ({ params }, res) => {
 
 module.exports = {
     getEntries,
+    getEntriesBySearch,
     getEntriesByEmail,
     getEntryByID,
     createEntry,

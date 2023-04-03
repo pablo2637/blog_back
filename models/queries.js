@@ -50,16 +50,18 @@ const queriesLog = {
 
 
 const queriesEntries = {
-    getEntries: `SELECT e.entryID, e.title, e.content, e.image, e.extract, e.date, e.time, u.name
+    getEntries: `SELECT e.entryID, e.title, e.content, e.image, e.extract, e.date, e.time, u.name, u.email
                     FROM entries AS e
                     INNER JOIN users AS u
-                    ON e.userID=u.userID;`,
+                    ON e.userID=u.userID
+                    ORDER BY e.date DESC, e.time DESC;`,
 
-    getEntriesByEmail: `SELECT e.title, e.content, e.image, e.extract, e.date, u.name
+    getEntriesByEmail: `SELECT e.title, e.content, e.image, e.extract, e.date, u.name, u.email
                         FROM entries AS e
                         INNER JOIN users AS u
                         ON e.userID=u.userID
-                        WHERE u.email=$1;`,
+                        WHERE u.email=$1
+                        ORDER BY e.date DESC, e.time DESC;`,
 
     getEntryByID: `SELECT e.title, e.content, e.image, e.extract, e.date, u.name
                         FROM entries AS e
@@ -83,7 +85,14 @@ const queriesEntries = {
                     RETURNING title, content, extract, image;`,
 
     deleteEntry: `DELETE FROM entries 
-                    WHERE entryID=$1;`
+                    WHERE entryID=$1;`,
+
+    getEntriesBySearch: `SELECT e.entryID, e.title, e.content, e.image, e.extract, e.date, e.time, u.name, u.email
+                    FROM entries AS e
+                    INNER JOIN users AS u
+                    ON e.userID=u.userID
+                    WHERE e.title LIKE '%$1%' OR e.content LIKE '%$1%'
+                    ORDER BY e.date DESC, e.time DESC;`
 }
 
 
