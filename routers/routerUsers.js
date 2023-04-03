@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+const { check } = require('express-validator');
+const { validateInputs } = require('../middlewares/validarInputs');
+
 const {
     getUsers,
     getUserByEmail,
@@ -16,7 +19,11 @@ router.get('/', getUsers);
 router.get('/:email', getUserByEmail);
 
 
-router.post('/', createUser);
+router.post('/', [
+    check('name', 'El nombre es obligatorio.').trim().not().isEmpty(),    
+    check('password', 'La contraseña es obligatoria y debe tener entre 5 y 10 caracteres.').trim().isLength({ min: 5, max: 10 }).not().isEmpty(),
+    check('email', 'El email es obligatorio, por favor, verifícalo.').trim().isEmail().normalizeEmail(),
+], createUser);
 
 
 router.post('/login', loginUser);
@@ -25,7 +32,9 @@ router.post('/login', loginUser);
 router.post('/logout', logoutUser);
 
 
-router.post('/changePassword', changePassword);
+router.put('/changePassword',[    
+    check('password', 'La contraseña es obligatoria y debe tener entre 5 y 10 caracteres.').trim().isLength({ min: 5, max: 10 }).not().isEmpty(),    
+], changePassword);
 
 
 module.exports = router

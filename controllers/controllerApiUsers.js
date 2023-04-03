@@ -68,11 +68,7 @@ const createUser = async ({ body }, res) => {
         if (data) return res.status(200).json({
             ok: true,
             data
-        });
-        else return res.status(400).json({
-            ok: true,
-            msg: `No se encontró ningún usuario con el email: ${body}`
-        });
+        });        
 
     } catch (e) {
         return res.status(500).json({
