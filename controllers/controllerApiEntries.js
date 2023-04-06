@@ -7,7 +7,7 @@ const {
     modelUpdateEntry,
     modelDeleteEntry } = require('../models/modelEntries');
 
-const limitePorDefecto = 8;
+const limitePorDefecto = 10;
 
 
 const getEntries = async ({ query }, res) => {
@@ -15,7 +15,7 @@ const getEntries = async ({ query }, res) => {
     try {
 
         const limit = parseInt(query.limit) || limitePorDefecto;
-        const page = parseInt(query.page) || 1;
+        let page = parseInt(query.page) || 1;
 
         const data = await modelGetEntries();
 
@@ -31,6 +31,8 @@ const getEntries = async ({ query }, res) => {
             totalEntries = data.length;
 
             totalPages = Math.ceil(totalEntries / limit);
+            
+            if (page - 1 >= arrPage.length) page = arrPage.length;
 
             return res.status(200).json({
                 ok: true,
@@ -62,7 +64,7 @@ const getEntriesBySearch = async ({ params, query }, res) => {
     try {
 
         const limit = parseInt(query.limit) || limitePorDefecto;
-        const page = parseInt(query.page) || 1;
+        let page = parseInt(query.page) || 1;
 
         const data = await modelGetEntriesBySearch(params.text);
 
@@ -78,6 +80,8 @@ const getEntriesBySearch = async ({ params, query }, res) => {
             totalEntries = data.length;
 
             totalPages = Math.ceil(totalEntries / limit);
+
+            if (page - 1 >= arrPage.length) page = arrPage.length;
 
             return res.status(200).json({
                 ok: true,
@@ -109,7 +113,7 @@ const getEntriesByEmail = async ({ params, query }, res) => {
     try {
 
         const limit = parseInt(query.limit) || limitePorDefecto;
-        const page = parseInt(query.page) || 1;
+        let page = parseInt(query.page) || 1;
 
         const data = await modelGetEntriesByEmail(params.email);
 
@@ -126,6 +130,8 @@ const getEntriesByEmail = async ({ params, query }, res) => {
 
             totalPages = Math.ceil(totalEntries / limit);
 
+            if (page - 1 >= arrPage.length) page = arrPage.length;
+
             return res.status(200).json({
                 ok: true,
                 totalEntries,
@@ -134,7 +140,7 @@ const getEntriesByEmail = async ({ params, query }, res) => {
                 page,
                 data: arrPage[page - 1]
             });
-            
+
         } else return res.status(400).json({
             ok: true,
             msg: `No hay entradas en la base de datos con el email: ${params.email}.`
@@ -202,7 +208,7 @@ const createEntry = async ({ body }, res) => {
 const updateEntry = async ({ body }, res) => {
 
     try {
-        console.log('body', body)
+        
         const data = await modelUpdateEntry(body);
 
         if (data) return res.status(200).json({
@@ -224,7 +230,7 @@ const updateEntry = async ({ body }, res) => {
 const deleteEntry = async ({ params }, res) => {
 
     try {
-        console.log('body', body)
+
         const data = await modelDeleteEntry(params.entryID);
 
         if (!data) return res.status(400).json({

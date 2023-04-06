@@ -58,18 +58,18 @@ const queriesEntries = {
                     ON e.userID=u.userID
                     ORDER BY e.date DESC, e.time DESC;`,
 
-    getEntriesByEmail: `SELECT e.title, e.content, e.image, e.extract, e.date, u.name, u.email
+    getEntriesByEmail: `SELECT e.entryID, e.title, e.content, e.image, e.extract, e.date, e.time,  u.name, u.email
                         FROM entries AS e
                         INNER JOIN users AS u
                         ON e.userID=u.userID
                         WHERE u.email=$1
                         ORDER BY e.date DESC, e.time DESC;`,
 
-    getEntryByID: `SELECT e.title, e.content, e.image, e.extract, e.date, u.name
+    getEntryByID: `SELECT e.entryID, e.title, e.content, e.image, e.extract, e.date, e.time, u.name, u.email
                         FROM entries AS e
                         INNER JOIN users AS u
                         ON e.userID=u.userID
-                        WHERE u.userID=$1;`,
+                        WHERE e.entryID=$1;`,
 
     createEntry: `INSERT INTO entries
                     (title, content, userid, extract, image)
@@ -93,7 +93,7 @@ const queriesEntries = {
                     FROM entries AS e
                     INNER JOIN users AS u
                     ON e.userID=u.userID
-                    WHERE e.title LIKE $1 OR e.content LIKE $1
+                    WHERE e.title ILIKE $1 OR e.content ILIKE $1
                     ORDER BY e.date DESC, e.time DESC;`
 }
 
