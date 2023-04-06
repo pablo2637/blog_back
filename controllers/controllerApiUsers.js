@@ -43,10 +43,14 @@ const getUserByEmail = async ({ params }, res) => {
             ok: true,
             data
         });
-        else return res.status(400).json({
-            ok: true,
-            msg: `No se encontró ningún usuario con el email: ${params.email}`
-        });
+        else {
+            const err = {};
+            err.email = `No se encontró ningún usuario con el email: ${params.email}`
+            return res.status(400).json({
+                ok: true,
+                errors: err
+            });
+        }
 
     } catch (e) {
         return res.status(500).json({
@@ -71,6 +75,17 @@ const createUser = async ({ body }, res) => {
         });
 
     } catch (e) {
+        if (e.toString().includes('duplicate key value')) {
+
+            let err = { email: {} };
+            err.email.msg = 'Este correo ya pertenece a un usuario registrado.'
+
+            return res.status(500).json({
+                ok: false,
+                errors: err
+            });
+        }
+
         return res.status(500).json({
             ok: false,
             msg: 'Error en createUser.',
