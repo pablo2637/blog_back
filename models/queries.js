@@ -6,8 +6,10 @@ const queriesUser = {
                     FROM users
                     WHERE email=$1;`,
 
-    getUserPassByEmail: `SELECT userID, password
-                    FROM users
+    getUserPassByEmail: `SELECT u.userID, u.password, u.name, r.rol
+                    FROM users AS u
+                    INNER JOIN rols AS r
+                    ON u.userID=r.userID
                     WHERE email=$1;`,
 
     createUser: `INSERT INTO users (name, email, password)
@@ -50,22 +52,24 @@ const queriesLog = {
 
 
 const queriesEntries = {
-    getEntries: `SELECT e.entryID, e.title, e.content, e.image, e.extract, e.date, e.time, u.name
+    getEntries: `SELECT e.entryID, e.title, e.content, e.image, e.extract, e.date, e.time, u.name, u.email
                     FROM entries AS e
                     INNER JOIN users AS u
-                    ON e.userID=u.userID;`,
+                    ON e.userID=u.userID
+                    ORDER BY e.date DESC, e.time DESC;`,
 
-    getEntriesByEmail: `SELECT e.title, e.content, e.image, e.extract, e.date, u.name
+    getEntriesByEmail: `SELECT e.entryID, e.title, e.content, e.image, e.extract, e.date, e.time,  u.name, u.email
                         FROM entries AS e
                         INNER JOIN users AS u
                         ON e.userID=u.userID
-                        WHERE u.email=$1;`,
+                        WHERE u.email=$1
+                        ORDER BY e.date DESC, e.time DESC;`,
 
-    getEntryByID: `SELECT e.title, e.content, e.image, e.extract, e.date, u.name
+    getEntryByID: `SELECT e.entryID, e.title, e.content, e.image, e.extract, e.date, e.time, u.name, u.email
                         FROM entries AS e
                         INNER JOIN users AS u
                         ON e.userID=u.userID
-                        WHERE u.userID=$1;`,
+                        WHERE e.entryID=$1;`,
 
     createEntry: `INSERT INTO entries
                     (title, content, userid, extract, image)
@@ -83,7 +87,14 @@ const queriesEntries = {
                     RETURNING title, content, extract, image;`,
 
     deleteEntry: `DELETE FROM entries 
-                    WHERE entryID=$1;`
+                    WHERE entryID=$1;`,
+
+    getEntriesBySearch: `SELECT e.entryID, e.title, e.content, e.image, e.extract, e.date, e.time, u.name, u.email
+                    FROM entries AS e
+                    INNER JOIN users AS u
+                    ON e.userID=u.userID
+                    WHERE e.title ILIKE $1 OR e.content ILIKE $1
+                    ORDER BY e.date DESC, e.time DESC;`
 }
 
 

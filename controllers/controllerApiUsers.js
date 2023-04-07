@@ -43,10 +43,14 @@ const getUserByEmail = async ({ params }, res) => {
             ok: true,
             data
         });
-        else return res.status(400).json({
-            ok: true,
-            msg: `No se encontró ningún usuario con el email: ${params.email}`
-        });
+        else {
+            const err = {};
+            err.email = `No se encontró ningún usuario con el email: ${params.email}`
+            return res.status(400).json({
+                ok: true,
+                errors: err
+            });
+        }
 
     } catch (e) {
         return res.status(500).json({
@@ -68,9 +72,20 @@ const createUser = async ({ body }, res) => {
         if (data) return res.status(200).json({
             ok: true,
             data
-        });        
+        });
 
     } catch (e) {
+        if (e.toString().includes('duplicate key value')) {
+
+            let err = { email: {} };
+            err.email.msg = 'Este correo ya pertenece a un usuario registrado.'
+
+            return res.status(500).json({
+                ok: false,
+                errors: err
+            });
+        }
+
         return res.status(500).json({
             ok: false,
             msg: 'Error en createUser.',
@@ -78,7 +93,7 @@ const createUser = async ({ body }, res) => {
         });
 
     };
-}
+};
 
 
 const loginUser = async ({ body }, res) => {
@@ -90,16 +105,21 @@ const loginUser = async ({ body }, res) => {
         if (result) {
             if (!isPassOK) return res.status(401).json({
                 ok: false,
-                msg: 'loginUser: el usuario/contraseña no corresponden a los datos almacenados.'
+                msg: 'El usuario/contraseña no corresponden a los datos almacenados.'
             })
 
             return res.status(200).json({
                 ok: true,
-                msg: 'loginUser OK.'
+                msg: 'loginUser OK.',
+                user: {
+                    id: result.userid,
+                    name: result.name,
+                    rol: result.rol
+                }
             });
         } else return res.status(401).json({
             ok: false,
-            msg: 'loginUser: el usuario/contraseña no corresponden a los datos almacenados.'
+            msg: 'El usuario/contraseña no corresponden a los datos almacenados.'
         });
 
     } catch (e) {
@@ -122,7 +142,7 @@ const changePassword = async ({ body }, res) => {
         if (result) {
             if (!isPassOK) return res.status(401).json({
                 ok: false,
-                msg: 'changePassword: la contraseña proporcionada no se corresponde con la almacenada.'
+                error: 'La contraseña proporcionada no se corresponde con la almacenada.'
             })
 
             return res.status(200).json({
@@ -131,7 +151,8 @@ const changePassword = async ({ body }, res) => {
             });
         } else return res.status(401).json({
             ok: false,
-            msg: `changePassword: el email: ${body.email}, no existe en la bd.`
+            msg: `changePassword error`,
+            result
         });
 
     } catch (e) {

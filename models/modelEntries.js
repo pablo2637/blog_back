@@ -25,6 +25,29 @@ const modelGetEntries = async () => {
 };
 
 
+const modelGetEntriesBySearch = async (text) => {
+
+    let client, result;
+    try {
+
+        client = await pool.connect();
+
+        const data = await client.query(queriesEntries.getEntriesBySearch, [`%${text.replace(' ', '%')}%`]);
+
+        data.rowCount != 0 ? result = data.rows : result = false;
+
+    } catch (e) {
+        throw e;
+
+    } finally {
+        client.release();
+
+    };
+
+    return result;
+};
+
+
 const modelGetEntriesByEmail = async (email) => {
 
     let client, result;
@@ -32,7 +55,7 @@ const modelGetEntriesByEmail = async (email) => {
 
         client = await pool.connect();
 
-        const data = await client.query(queriesEntries.getEntriesByEmail, [email])
+        const data = await client.query(queriesEntries.getEntriesByEmail, [email]);
 
         data.rowCount != 0 ? result = data.rows : result = false;
 
@@ -55,7 +78,7 @@ const modelGetEntryByID = async (id) => {
 
         client = await pool.connect();
 
-        const data = await client.query(queriesEntries.getEntryByID, [id])
+        const data = await client.query(queriesEntries.getEntryByID, [id]);
 
         data.rowCount != 0 ? result = data.rows : result = false;
 
@@ -142,6 +165,7 @@ const modelDeleteEntry = async (entryID) => {
 
 module.exports = {
     modelGetEntries,
+    modelGetEntriesBySearch,
     modelGetEntriesByEmail,
     modelGetEntryByID,
     modelCreateEntry,
