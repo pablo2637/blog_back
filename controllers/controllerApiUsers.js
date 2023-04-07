@@ -93,7 +93,7 @@ const createUser = async ({ body }, res) => {
         });
 
     };
-}
+};
 
 
 const loginUser = async ({ body }, res) => {
@@ -142,7 +142,7 @@ const changePassword = async ({ body }, res) => {
         if (result) {
             if (!isPassOK) return res.status(401).json({
                 ok: false,
-                msg: 'changePassword: la contraseña proporcionada no se corresponde con la almacenada.'
+                error: 'La contraseña proporcionada no se corresponde con la almacenada.'
             })
 
             return res.status(200).json({
@@ -151,7 +151,8 @@ const changePassword = async ({ body }, res) => {
             });
         } else return res.status(401).json({
             ok: false,
-            msg: `changePassword: el email: ${body.email}, no existe en la bd.`
+            msg: `changePassword error`,
+            result
         });
 
     } catch (e) {

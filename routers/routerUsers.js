@@ -37,7 +37,8 @@ router.post('/logout', logoutUser);
 
 
 router.put('/changePassword',[    
-    check('password', 'La contraseña es obligatoria y debe tener entre 5 y 10 caracteres.').trim().isLength({ min: 5, max: 10 }).not().isEmpty(),    
+    check('oldPassword', 'La contraseña es obligatoria y debe tener entre 5 y 10 caracteres.').trim().isLength({ min: 5, max: 10 }).not().isEmpty(),    
+    check('newPassword', 'La contraseña es obligatoria y debe tener entre 5 y 10 caracteres.').trim().isLength({ min: 5, max: 10 }).not().isEmpty(),    
     validateInputs
 ], changePassword);
 
