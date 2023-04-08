@@ -20,7 +20,7 @@ logID serial NOT NULL PRIMARY KEY,
 event varchar(45) NOT NULL,
 userID int,
 date date DEFAULT CURRENT_DATE,
-time time DEFAULT CURRENT_TIME,
+time timetz DEFAULT CURRENT_TIME,
 FOREIGN KEY (userID) REFERENCES users(userID)
 );
 
@@ -33,7 +33,7 @@ extract varchar(250) NOT NULL,
 userID int,
 image varchar(200) NOT NULL,
 date date DEFAULT CURRENT_DATE,
-time time DEFAULT CURRENT_TIME,
+time timetz DEFAULT CURRENT_TIME,
 FOREIGN KEY (userID) REFERENCES users(userID)
 );
 
