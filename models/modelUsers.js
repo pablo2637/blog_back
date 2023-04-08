@@ -110,7 +110,7 @@ const modelLoginUser = async ({ email, password }) => {
     };
 
     return { result, isPassOK };
-}
+};
 
 
 const modelChangePassword = async ({ email, oldPassword, newPassword }) => {

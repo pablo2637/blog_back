@@ -130,7 +130,7 @@ const loginUser = async ({ body }, res) => {
         });
 
     };
-}
+};
 
 
 const changePassword = async ({ body }, res) => {
@@ -163,7 +163,7 @@ const changePassword = async ({ body }, res) => {
         });
 
     };
-}
+};
 
 
 const logoutUser = async ({ body }, res) => {
@@ -178,6 +178,7 @@ const logoutUser = async ({ body }, res) => {
         });
 
     } catch (e) {
+
         return res.status(500).json({
             ok: false,
             msg: 'Error en logoutUser.',
@@ -185,7 +186,7 @@ const logoutUser = async ({ body }, res) => {
         });
 
     };
-}
+};
 
 
 module.exports = {
