@@ -8,8 +8,8 @@ port = process.env.PORT;
 app.use(cors());                                    //Cors
 app.use(express.static(__dirname + '/public'));     //Carpeta static
 
-app.use(express.urlencoded({ extended: false }))    // Parse application/x-www-form-urlencoded
-app.use(express.json())                             // Parse application/json
+app.use(express.urlencoded({ extended: false }));   // Parse application/x-www-form-urlencoded
+app.use(express.json());                             // Parse application/json
 
 
 app.use('/api/users', require('./routers/routerUsers'));        //User routers
@@ -17,7 +17,7 @@ app.use('/api/entries', require('./routers/routerEntries'));    //Entries router
 
 
 //404
-app.use((req, res, next) => { res.status(404).send({ msg: 'Ruta no encontrada.' }); })
+app.use((req, res, next) => { res.status(404).send({ msg: `Ruta no encontrada: ${req.url}` }); });
 
 
 //Listener

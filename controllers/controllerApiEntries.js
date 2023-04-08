@@ -154,7 +154,7 @@ const getEntriesByEmail = async ({ params, query }, res) => {
         });
 
     };
-}
+};
 
 
 const getEntryByID = async ({ params }, res) => {
@@ -180,7 +180,7 @@ const getEntryByID = async ({ params }, res) => {
         });
 
     };
-}
+};
 
 
 const createEntry = async ({ body }, res) => {
@@ -224,7 +224,7 @@ const updateEntry = async ({ body }, res) => {
         });
 
     };
-}
+};
 
 
 const deleteEntry = async ({ params }, res) => {
@@ -251,7 +251,7 @@ const deleteEntry = async ({ params }, res) => {
         });
 
     };
-}
+};
 
 
 module.exports = {
