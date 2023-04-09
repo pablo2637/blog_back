@@ -36,6 +36,7 @@ const getEntries = async ({ query }, res) => {
 
             return res.status(200).json({
                 ok: true,
+                msg:'',
                 totalEntries,
                 limit,
                 totalPages,
@@ -85,6 +86,7 @@ const getEntriesBySearch = async ({ params, query }, res) => {
 
             return res.status(200).json({
                 ok: true,
+                msg:'',
                 totalEntries,
                 limit,
                 totalPages,
@@ -134,6 +136,7 @@ const getEntriesByEmail = async ({ params, query }, res) => {
 
             return res.status(200).json({
                 ok: true,
+                msg:'',
                 totalEntries,
                 limit,
                 totalPages,
