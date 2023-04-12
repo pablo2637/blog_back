@@ -23,6 +23,8 @@ const getUsers = async (req, res) => {
         });
 
     } catch (e) {
+        console.log('catchError en getUsers:', e);
+
         return res.status(500).json({
             ok: false,
             msg: 'Error en getUsers.',
@@ -53,6 +55,8 @@ const getUserByEmail = async ({ params }, res) => {
         }
 
     } catch (e) {
+        console.log('catchError en getUserByEmail:', e);
+
         return res.status(500).json({
             ok: false,
             msg: 'Error en getUserByEmail.',
@@ -75,6 +79,7 @@ const createUser = async ({ body }, res) => {
         });
 
     } catch (e) {
+
         if (e.toString().includes('duplicate key value')) {
 
             let err = { email: {} };
@@ -85,6 +90,8 @@ const createUser = async ({ body }, res) => {
                 errors: err
             });
         }
+
+        console.log('catchError en createUser:', e);
 
         return res.status(500).json({
             ok: false,
@@ -103,10 +110,12 @@ const loginUser = async ({ body }, res) => {
         const { result, isPassOK } = await modelLoginUser(body);
 
         if (result) {
-            if (!isPassOK) return res.status(401).json({
-                ok: false,
-                msg: 'El usuario/contraseña no corresponden a los datos almacenados.'
-            })
+
+            if (!isPassOK)
+                return res.status(401).json({
+                    ok: false,
+                    msg: 'El usuario/contraseña no corresponden a los datos almacenados.'
+                })
 
             return res.status(200).json({
                 ok: true,
@@ -123,6 +132,8 @@ const loginUser = async ({ body }, res) => {
         });
 
     } catch (e) {
+        console.log('catchError en loginUser:', e);
+
         return res.status(500).json({
             ok: false,
             msg: 'Error en loginUser.',
@@ -156,6 +167,8 @@ const changePassword = async ({ body }, res) => {
         });
 
     } catch (e) {
+        console.log('catchError en changePassword:', e);
+
         return res.status(500).json({
             ok: false,
             msg: 'Error en changePassword.',
@@ -178,6 +191,7 @@ const logoutUser = async ({ body }, res) => {
         });
 
     } catch (e) {
+        console.log('catchError en logoutUser:', e);
 
         return res.status(500).json({
             ok: false,

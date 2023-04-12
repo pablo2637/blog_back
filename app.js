@@ -14,6 +14,7 @@ app.use(express.json());                             // Parse application/json
 
 app.use('/api/users', require('./routers/routerUsers'));        //User routers
 app.use('/api/entries', require('./routers/routerEntries'));    //Entries routers
+app.use('/api/logs', require('./routers/routerLogs'));          //Logs routers
 
 
 //404

@@ -32,22 +32,29 @@ const queriesRol = {
 };
 
 
-const queriesLog = {
-    insertLog: `INSERT INTO logs (userID, event)
+const queriesLogs = {
+    insertLog: `INSERT INTO logs (userID, event, time)
                 VALUES ((SELECT userID
                             FROM users
-                            WHERE email=$1), $2);`,
+                            WHERE email=$1), $2, $3);`,
 
-    getLogs: `SELECT *
-                FROM logs;`,
+    getLogs: `SELECT l.date, l.time, u.name, u.email, l.event
+                FROM logs AS l
+                INNER JOIN users AS u
+                ON u.userid = l.userid
+                ORDER BY l.date DESC, l.time DESC;`,
 
-    getLogByID: `SELECT log, date
-                FROM logs
-                WHERE userID=$1;`,
+    getLogByID: `SELECT l.date, l.time, u.name, l.event
+                    FROM logs AS l
+                    INNER JOIN users AS u
+                    ON u.userid = l.userid
+                    WHERE l.userID=$1;`,
 
-    getLogsByDates: `SELECT log, date
-                    FROM logs
-                    WHERE date BETWEEN [$1] AND [$2];`
+    getLogsByDates: `SELECT l.date, l.time, u.name, l.event
+                        FROM logs AS l
+                        INNER JOIN users AS u
+                        ON u.userid = l.userid
+                        WHERE l.date BETWEEN [$1] AND [$2];`
 };
 
 
@@ -72,10 +79,10 @@ const queriesEntries = {
                         WHERE e.entryID=$1;`,
 
     createEntry: `INSERT INTO entries
-                    (title, content, userid, extract, image)
+                    (title, content, userid, extract, image, time)
                     VALUES ($1, $2, (SELECT userID 
                                     FROM users 
-                                    WHERE email=$3), $4, $5)
+                                    WHERE email=$3), $4, $5, $6)
                     RETURNING title, content, extract, image, date, time;`,
 
     updateEntryByID: `UPDATE entries 
@@ -100,7 +107,7 @@ const queriesEntries = {
 
 module.exports = {
     queriesUser,
-    queriesLog,
+    queriesLogs,
     queriesRol,
     queriesEntries
 }

@@ -40,7 +40,7 @@ FOREIGN KEY (userID) REFERENCES users(userID)
 --Crea admin (password: admin, se guarda encriptado)
 INSERT INTO users(name, email, password)
 VALUES
-('pepe','pepe@correo.es','$2a$10$a.x4kbAfyVBRwcJX.TW4S.GniM1hWeeNuOVWgRg3jKtd4UebOx5FC');
+('Pepe','pepe@correo.es','$2a$10$a.x4kbAfyVBRwcJX.TW4S.GniM1hWeeNuOVWgRg3jKtd4UebOx5FC');
 
 --Le asigna al usuario admin el rol admin
 INSERT INTO rols(rol,userID)
@@ -50,15 +50,13 @@ VALUES
 --Crea resto usuarios (password: 123456, se guarda encriptado)
 INSERT INTO users(name,email,password)
 VALUES
-('ana','ana@correo.es','$2a$10$a23Xb31R5vIdedwkz/wl4epHZt6GerLQVU/y2PFZm28vBT4qrAm2i'),
-('pedro','pedro@correo.es','$2a$10$a23Xb31R5vIdedwkz/wl4epHZt6GerLQVU/y2PFZm28vBT4qrAm2i'),
-('luis','luis@correo.es','$2a$10$a23Xb31R5vIdedwkz/wl4epHZt6GerLQVU/y2PFZm28vBT4qrAm2i'),
-('laura','laura@correo.es','$2a$10$a23Xb31R5vIdedwkz/wl4epHZt6GerLQVU/y2PFZm28vBT4qrAm2i');
+('Ana','ana@correo.es','$2a$10$a23Xb31R5vIdedwkz/wl4epHZt6GerLQVU/y2PFZm28vBT4qrAm2i'),
+('Pedro','pedro@correo.es','$2a$10$a23Xb31R5vIdedwkz/wl4epHZt6GerLQVU/y2PFZm28vBT4qrAm2i'),
+('Luis','luis@correo.es','$2a$10$a23Xb31R5vIdedwkz/wl4epHZt6GerLQVU/y2PFZm28vBT4qrAm2i');
 
 --Asinga resto de roles a users
 INSERT INTO rols(rol,userID)
 VALUES
 ('user',2),
 ('user',3),
-('user',4),
-('user',5);
+('user',4);

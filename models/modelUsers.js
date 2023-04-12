@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 const {
     queriesUser,
-    queriesLog,
+    queriesLogs,
     queriesRol } = require('./queries');
 
 
@@ -11,7 +11,7 @@ const modelGetUsers = async () => {
 
     let client, result;
     try {
-        
+
         client = await pool.connect();
 
         const data = await client.query(queriesUser.getUsers)
@@ -58,6 +58,8 @@ const modelCreateUser = async ({ name, email, password }) => {
     let client, result;
     try {
 
+        const hora = new Date();
+
         client = await pool.connect();
 
         const salt = bcrypt.genSaltSync(10);
@@ -67,7 +69,7 @@ const modelCreateUser = async ({ name, email, password }) => {
 
         await client.query(queriesRol.insertRol, [data.rows[0].userid, 'user']);
 
-        await client.query(queriesLog.insertLog, [email, 'register']);
+        await client.query(queriesLogs.insertLog, [email, 'register', hora.toLocaleTimeString()]);
 
         data.rowCount != 0 ? result = data.rows : result = false;
 
@@ -88,6 +90,8 @@ const modelLoginUser = async ({ email, password }) => {
     let client, result, isPassOK;
     try {
 
+        const hora = new Date();
+
         client = await pool.connect();
 
         const data = await client.query(queriesUser.getUserPassByEmail, [email]);
@@ -97,7 +101,7 @@ const modelLoginUser = async ({ email, password }) => {
         if (result) {
             isPassOK = bcrypt.compareSync(password, result.password);
 
-            await client.query(queriesLog.insertLog, [email, `login attempt: ${isPassOK}`]);
+            await client.query(queriesLogs.insertLog, [email, `login attempt: ${isPassOK}`, hora.toLocaleTimeString()]);
 
         }
 
@@ -118,6 +122,8 @@ const modelChangePassword = async ({ email, oldPassword, newPassword }) => {
     let client, result, isPassOK;
     try {
 
+        const hora = new Date();
+
         client = await pool.connect();
 
         const data = await client.query(queriesUser.getUserPassByEmail, [email]);
@@ -135,7 +141,7 @@ const modelChangePassword = async ({ email, oldPassword, newPassword }) => {
                 const dataPass = await client.query(queriesUser.changePassByEmail, [newPassword, email]);
             }
 
-            await client.query(queriesLog.insertLog, [email, `change password: ${isPassOK}`]);
+            await client.query(queriesLogs.insertLog, [email, `change password: ${isPassOK}`, hora.toLocaleTimeString()]);
 
         }
 
@@ -156,9 +162,11 @@ const modelLogoutUser = async ({ email }) => {
     let client;
     try {
 
+        const hora = new Date();
+
         client = await pool.connect();
 
-        await client.query(queriesLog.insertLog, [email, 'logout']);
+        await client.query(queriesLogs.insertLog, [email, 'logout', hora.toLocaleTimeString()]);
 
     } catch (e) {
         throw e;

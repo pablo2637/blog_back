@@ -1,28 +1,28 @@
-#Blog: Back
+# Blog: Back
 
 Aquí encontramos **2 APIs** para gestionar a los *usuarios* y las *entradas* del blog:
 * Users
 * Entries:
 
 ---
-##Base de datos
+## Base de datos
 El motor de base de datos utilizado es postgreSQL, que esta subido en **[elephantSQL](https://www.elephantsql.com/)**
 \**(Datos de conexión al final)*
 
-###Relaciones:
+### Relaciones:
 ![Relaciones](Relaciones.png)
 
 ---
-##API Users:
+## API Users:
 
-####**getUsers:**
+#### **getUsers:**
 * Devuelve:
     * ok: **true** o **false**
     * data: **todos los usuarios**
 * Ruta: **/api/users/**
 * Método: **GET**
   
-####**getUserByEmail:**
+#### **getUserByEmail:**
 * Devuelve: 
     * ok: **true** o **false**
     * data: **los datos de un usuario concreto buscándolo por su email**
@@ -30,7 +30,7 @@ El motor de base de datos utilizado es postgreSQL, que esta subido en **[elephan
 * Ruta: **/api/users/:email**
 * Método: **GET**
 
-####**createUser:** 
+#### **createUser:** 
 * Devuelve:
     * ok: **true** o **false**
     * data: **los datos del usuario creado**
@@ -38,7 +38,7 @@ El motor de base de datos utilizado es postgreSQL, que esta subido en **[elephan
 * Ruta: **/api/users/**
 * Método: **POST**
 
-####**changePassword:** cambia la contraseña de un usuario.
+#### **changePassword:** cambia la contraseña de un usuario.
 * Devuelve:
     * ok: **true** o **false**
     * msg: **información sobre el cambio**
@@ -46,7 +46,7 @@ El motor de base de datos utilizado es postgreSQL, que esta subido en **[elephan
 * Ruta: **/api/users/**
 * Método: **PUT**
 
-####**login:** verifica y registra el login del usuario.
+#### **login:** verifica y registra el login del usuario.
 * Devuelve:
     * ok: **true** o **false**
     * msg: **información sobre el login**
@@ -55,7 +55,7 @@ El motor de base de datos utilizado es postgreSQL, que esta subido en **[elephan
 * Ruta: **/api/users/login**
 * Método: **POST**
 
-####**logout:** registra el logout del usuario.
+#### **logout:** registra el logout del usuario.
 * Devuelve:
     * ok: **true** o **false**
     * msg: **información sobre el logout**
@@ -64,8 +64,8 @@ El motor de base de datos utilizado es postgreSQL, que esta subido en **[elephan
 * Método: **POST**
 
 ---
-##API Entries:
-####**getEntries:**
+## API Entries:
+#### **getEntries:**
 * Devuelve:
   * ok: **true** o **false**
   * totalEntries: **cantidad total de entradas**
@@ -79,7 +79,7 @@ El motor de base de datos utilizado es postgreSQL, que esta subido en **[elephan
     * **limit**, cantidad de entradas por página (Por defecto: 10).
     * **page**, la página que quieres que devuelva (Por defecto: 1).  
   
-####**getEntriesBySearch:** 
+#### **getEntriesBySearch:** 
 * Devuelve:
   * ok: **true** o **false**
   * totalEntries: **cantidad total de entradas**
@@ -94,7 +94,7 @@ El motor de base de datos utilizado es postgreSQL, que esta subido en **[elephan
   * **limit**, cantidad de entradas por página (Por defecto: 10).
   * **page**, la página que quieres que devuelva (Por defecto: 1).
 
-####**getEntriesByEmail:** 
+#### **getEntriesByEmail:** 
 * Devuelve: 
     * ok: **true** o **false**
     * totalEntries: **cantidad total de entradas**
@@ -106,10 +106,10 @@ El motor de base de datos utilizado es postgreSQL, que esta subido en **[elephan
 * Ruta: **/api/entries/email/:email**
 * Método: **GET**
 * Querys opcionales: 
-    * **limit**, cantidad de entradas por página (Por defecto: 10).
+    * **limit**, cantidad de entradas por página (Por defecto: 5).
     * **page**, la página que quieres que devuelva (Por defecto: 1).
 
-####**getEntryByID:** 
+#### **getEntryByID:** 
 * Devuelve: 
     * ok: **true** o **false**
     * data: **la entrada que coincide con el ID**            
@@ -117,7 +117,7 @@ El motor de base de datos utilizado es postgreSQL, que esta subido en **[elephan
 * Ruta: **/api/entries/id/:id**
 * Método: **GET**
 
-####**createEntry:** 
+#### **createEntry:** 
 * Devuelve: 
     * ok: **true** o **false**
     * data: **los datos de la entrada creada**
@@ -125,7 +125,7 @@ El motor de base de datos utilizado es postgreSQL, que esta subido en **[elephan
 * Ruta: **/api/entries/**
 * Método: **POST**
 
-####**updateEntry:** 
+#### **updateEntry:** 
 * Devuelve: 
     * ok: **true** o **false**
     * data: **los datos de la entrada modificada**
@@ -133,7 +133,7 @@ El motor de base de datos utilizado es postgreSQL, que esta subido en **[elephan
 * Ruta: **/api/entries/**
 * Método: **PUT**
 
-####**deleteEntry:** 
+#### **deleteEntry:** 
 * Devuelve: 
     * ok: **true** o **false**
 * Requiere: **entryID**
@@ -141,8 +141,8 @@ El motor de base de datos utilizado es postgreSQL, que esta subido en **[elephan
 * Método: **DELETE**
 
 ---
-##.env:
-####Requiere:
+## .env:
+#### Requiere:
 * El puerto del servidor: **PORT**=3000
 * La conexión a la BD:
     * **ELEPHANT_USER**=ucyoiydj

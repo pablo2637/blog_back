@@ -7,7 +7,9 @@ const {
     modelUpdateEntry,
     modelDeleteEntry } = require('../models/modelEntries');
 
-const limitePorDefecto = 10;
+const { pages } = require('../helpers/pages');
+
+const limitePorDefecto = 5;
 
 
 const getEntries = async ({ query }, res) => {
@@ -20,28 +22,20 @@ const getEntries = async ({ query }, res) => {
         const data = await modelGetEntries();
 
         if (data) {
-            let totalEntries, totalPages;
-            const arrPage = [];
 
-            for (let i = 0; i < data.length; i += limit) {
-                const pag = data.slice(i, i + limit);
-                arrPage.push(pag);
-            }
-
-            totalEntries = data.length;
-
-            totalPages = Math.ceil(totalEntries / limit);
-            
-            if (page - 1 >= arrPage.length) page = arrPage.length;
+            const { arrPage,
+                totalEntries,
+                totalPages,
+                pageFix } = pages(data, page, limit);
 
             return res.status(200).json({
                 ok: true,
-                msg:'',
+                msg: '',
                 totalEntries,
                 limit,
                 totalPages,
-                page,
-                data: arrPage[page - 1]
+                page: pageFix + 1,
+                data: arrPage[pageFix]
             });
 
         } else return res.status(400).json({
@@ -50,6 +44,8 @@ const getEntries = async ({ query }, res) => {
         });
 
     } catch (e) {
+        console.log('catchError en getEntries:', e);
+
         return res.status(500).json({
             ok: false,
             msg: 'Error en getEntries.',
@@ -70,28 +66,20 @@ const getEntriesBySearch = async ({ params, query }, res) => {
         const data = await modelGetEntriesBySearch(params.text);
 
         if (data) {
-            let totalEntries, totalPages;
-            const arrPage = [];
 
-            for (let i = 0; i < data.length; i += limit) {
-                const pag = data.slice(i, i + limit);
-                arrPage.push(pag);
-            }
-
-            totalEntries = data.length;
-
-            totalPages = Math.ceil(totalEntries / limit);
-
-            if (page - 1 >= arrPage.length) page = arrPage.length;
+            const { arrPage,
+                totalEntries,
+                totalPages,
+                pageFix } = pages(data, page, limit);
 
             return res.status(200).json({
                 ok: true,
-                msg:'',
+                msg: '',
                 totalEntries,
                 limit,
                 totalPages,
-                page,
-                data: arrPage[page - 1]
+                page: pageFix + 1,
+                data: arrPage[pageFix]
             });
 
         } else return res.status(400).json({
@@ -100,6 +88,8 @@ const getEntriesBySearch = async ({ params, query }, res) => {
         });
 
     } catch (e) {
+        console.log('catchError en getEntriesBySearch:', e);
+
         return res.status(500).json({
             ok: false,
             msg: 'Error en getEntriesBySearch.',
@@ -120,28 +110,20 @@ const getEntriesByEmail = async ({ params, query }, res) => {
         const data = await modelGetEntriesByEmail(params.email);
 
         if (data) {
-            let totalEntries, totalPages;
-            const arrPage = [];
 
-            for (let i = 0; i < data.length; i += limit) {
-                const pag = data.slice(i, i + limit);
-                arrPage.push(pag);
-            }
-
-            totalEntries = data.length;
-
-            totalPages = Math.ceil(totalEntries / limit);
-
-            if (page - 1 >= arrPage.length) page = arrPage.length;
+            const { arrPage,
+                totalEntries,
+                totalPages,
+                pageFix } = pages(data, page, limit);
 
             return res.status(200).json({
                 ok: true,
-                msg:'',
+                msg: '',
                 totalEntries,
                 limit,
                 totalPages,
-                page,
-                data: arrPage[page - 1]
+                page: pageFix + 1,
+                data: arrPage[pageFix]
             });
 
         } else return res.status(400).json({
@@ -150,6 +132,8 @@ const getEntriesByEmail = async ({ params, query }, res) => {
         });
 
     } catch (e) {
+        console.log('catchError en getEntriesByEmail:', e);
+
         return res.status(500).json({
             ok: false,
             msg: 'Error en getEntriesByEmail.',
@@ -176,6 +160,8 @@ const getEntryByID = async ({ params }, res) => {
         });
 
     } catch (e) {
+        console.log('catchError en getEntryByID:', e);
+
         return res.status(500).json({
             ok: false,
             msg: 'Error en getEntryByID.',
@@ -198,6 +184,8 @@ const createEntry = async ({ body }, res) => {
         });
 
     } catch (e) {
+        console.log('catchError en createEntry:', e);
+
         return res.status(500).json({
             ok: false,
             msg: 'Error en createEntry.',
@@ -211,7 +199,7 @@ const createEntry = async ({ body }, res) => {
 const updateEntry = async ({ body }, res) => {
 
     try {
-        
+
         const data = await modelUpdateEntry(body);
 
         if (data) return res.status(200).json({
@@ -220,6 +208,8 @@ const updateEntry = async ({ body }, res) => {
         });
 
     } catch (e) {
+        console.log('catchError en updateEntry:', e);
+
         return res.status(500).json({
             ok: false,
             msg: 'Error en updateEntry.',
@@ -247,6 +237,8 @@ const deleteEntry = async ({ params }, res) => {
         });
 
     } catch (e) {
+        console.log('catchError en deleteEntry:', e);
+
         return res.status(500).json({
             ok: false,
             msg: 'Error en deleteEntry.',

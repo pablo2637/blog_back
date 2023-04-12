@@ -99,9 +99,11 @@ const modelCreateEntry = async ({ title, content, email, extract, image }) => {
     let client, result;
     try {
 
+        const hora = new Date();
+
         client = await pool.connect();
 
-        const data = await client.query(queriesEntries.createEntry, [title, content, email, extract, image]);
+        const data = await client.query(queriesEntries.createEntry, [title, content, email, extract, image, , hora.toLocaleTimeString()]);
 
         data.rowCount != 0 ? result = data.rows : result = false;
 
