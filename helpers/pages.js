@@ -17,7 +17,7 @@ const pages = (data, page, limit) => {
     totalPages = Math.ceil(totalEntries / limit);
     // console.log('page', page, 'page-1', page - 1, 'arrayPage', arrPage.length, 'totalPages', totalPages)
     page--;
-    if (page > arrPage.length)
+    if (page >= arrPage.length)
         page = arrPage.length - 1;
     // console.log('pageFix', page);
 
